@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+ <link rel="import" href="contact-card.html">
+
+<dom-module id="app-element">
+  	<template>
+    	<style>
+
+    	</style>
+		  <section class= 'contacts-view'>
+        <template is='dom-repeat' items='{{contacts}}'> 
+          <contact-card name="{{item.first}}" picture="{{item.picture}}">loading contact-card</contact-card>
+        </template>
+          
+      </section>
+		 
+	
+
+
+    </template>
+
+ <script>
+    Polymer({
+      is: 'app-element',
+      ready:function(){
+        this.contacts=[
+          {first:'Nikola', last: 'Tesla', picture: 'app/images/Tesla-Nikola.jpg'},
+          {first: 'Marie', last: 'Curie', picture: 'app/images/Curie-Marie.jpg'}
+        ];
+
+      }
+
+    });
+  </script>
+
+</dom-module>

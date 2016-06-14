@@ -1,0 +1,22 @@
+{
+  "name": "polymer-contacts",
+  "homepage": "https://github.com/Tesla3e8/polymer-contacts",
+  "authors": [
+    "Tesla3e8 <jenniffer.cubillos@sngular.team>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.5.0",
+    "paper-card": "PolymerElements/paper-card#^1.1.1",
+    "paper-button": "PolymerElements/paper-button#^1.0.12"
+  }
+}
