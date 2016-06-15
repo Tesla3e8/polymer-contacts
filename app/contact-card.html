@@ -1,63 +1,94 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
-
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="favorite-behavior.html">
 
 <dom-module id="contact-card">
   	<template>
     	<style>
-      paper-card{
-        margin:1em;
+      .card{
+        margin:1.2em;
+        transition: all 1s ease;
       }
+      :host[favorite] .card{
+        background: #5ad3f4;
+        transform: scale(1.1);
+        transition: all 1s ease;
+      }
+      :host([favorite]) .icon-star {
+        display: inline;
+      } 
+      :host([favorite]) .icon-not-check{
+        color:red;
+        float: left;
+      }     
       .card-content{
-        background-color: #A4B432;
-        
-      }
-      .card-picture{
-        background-color:#F8FDCE; 
-      }
-      .card-picture img{
-        margin: 1em;
+        background-color: #93AFB3;
       }
       .card-actions{
-        background-color:#EDFD78; 
+        background-color: #F3F4F3;        
+        padding: 0;
+      }     
+      .icon-star{
+        display:none;
+        position: absolute;
+        fill:yellow;
+      }
+      .icon-check{
+        color: green;
+        float: left;
+      }
+      .icon-clear {
+        color: red;
+        float: right;
       }
 
     	</style>     
-      <paper-card >
-        <div class="card-content">
-          {{contact.name.first}} {{contact.name.last}}
-          <iron-icon class='icon-star' src='images/star.png'></iron-icon>
-        </div>
-        <div class="card-picture">
-          <img src="{{contact.picture.large}}"  >
-        </div>
-        
-        
-        <div class="card-actions">
-          <paper-button>Favorite</paper-button>
-          <paper-button>Eliminate</paper-button>
-        </div>
-      </paper-card>
-		
-		
-	
+      <paper-card class='card'>
+        <div class='card-content'>
+          <iron-icon class='icon-star' icon='star'></iron-icon>
+          <img class='contact-picture' src='{{contact.picture.large}}'>          
+          <p class= 'contact-name'>{{contact.name.first}} {{contact.name.last}}</p>                    
+        </div>    
 
+        <div class='card-actions'>
+          <template is='dom-if' if='{{!contact.favorite}}'>
+            <paper-icon-button class='icon-check' icon='social:mood' on-tap='selectFavorite'></paper-icon-button>
+            <paper-icon-button class='icon-clear' on-tap='_removeContact' icon='clear'>Nope</paper-icon-button>
+          </template>
+
+          <template is='dom-if' if='{{contact.favorite}}'>
+            <paper-icon-button class='icon-not-check' icon='social:mood-bad' on-tap='selectFavorite'></paper-icon-button>
+            <paper-icon-button class='icon-clear' on-tap='_removeContact' icon='clear'>Nope</paper-icon-button>
+          </template>          
+        </div>
+
+      </paper-card>
 
     </template>
 
  <script>
     Polymer({
       is: 'contact-card',
+      behaviors: [Polymer.FavoriteBehavior],
       properties: {
         contact: {
           type: Object
-        }       
+        }
       },
-      behaviors:[]
+      _removeContact: function(){
 
-    });
+        this.toggleClass('removed');
+        setTimeout(function(){
+          console.log("Remove");
+          this.fire('remove-card', {contact: this.contact});
+          this.toggleClass('removed');
+        }.bind(this), 500);
+      }
+    })
   </script>
 
 </dom-module>

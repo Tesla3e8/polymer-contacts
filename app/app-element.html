@@ -1,45 +1,40 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="contact-card.html">
+
 <link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
 <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="contact-card.html">
+
 
 <dom-module id="app-element">
   	<template>
     	<style>
       paper-toolbar{
-        background-color:#6C2379; 
+        background-color:#00B5EC;
       }
-
 
     	</style>
       <iron-ajax
       auto
-      url="https://randomuser.me/api/?results=5"
-      last-response="{{contacts}}"
-      handle-as="json">
+      url='https://randomuser.me/api/?results=25'
+      last-response='{{contacts}}'
+      handle-as='json'>
     </iron-ajax>
 
-      <paper-header-panel mode="standard">
+      <paper-header-panel mode='standard'>
         <paper-toolbar>
-          <span class="title">My contacts</span>
+          <span class='title'>My contacts</span>
         </paper-toolbar>
-      </paper-header-panel>
-      
+      </paper-header-panel>      
 
       <section class='container'>
-        <aside class='favorites-view'> Hi, I'm aside!!!</aside>
   		  <section class= 'contacts-view'>
-          <template is='dom-repeat' items='{{contacts.results}}'> 
+          <template id='contactsView' is='dom-repeat' items='{{contacts.results}}'> 
             <contact-card contact="{{item}}">loading contact-card</contact-card>
           </template>
             
         </section>
       </section>
-		 
-	
-
-
     </template>
 
  <script>
@@ -47,9 +42,20 @@
       is: 'app-element',
       properties:{
         contacts:{
-          type:Array
+          type: Object
         }
+      },
+      listeners:{
+        'remove-card' : '_removeCard'
+      },
+
+      _removeCard: function(ev, param){
+        var index = this.contacts.results.indexOf(param.contact);    
+        this.contacts.results.splice(index,1);    
+        this.$.contactsView.render();
       }
+
+
       
 
     });
