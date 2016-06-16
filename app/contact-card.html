@@ -15,9 +15,11 @@
         transition: transform 1s ;
       }
       :host[favorite] .card{
-        background: #FFAD41;
         transform: scale(1.1);
         transition: all 1s ease;
+      }
+      :host[favorite] .card-content{
+        background-color: #3CA5A6;
       }
       :host([favorite]) .icon-star {
         display: inline;
@@ -26,16 +28,14 @@
         color:#e2264d;
         float: left;
       }  
-      :host([favorite]) .card-content{
-        background-color: #FFFFFF;
-      }
+
       .card{
         margin:1.2em;
         transition: all 1s ease;
 
       }
       .card-content{
-        background-color: #FFAD41;
+        background-color: #338C8D;
       }
       .icon-star{
         display:none;
@@ -94,7 +94,7 @@
 
         this.toggleClass('removed');
         setTimeout(function(){
-          this.fire('remove-card', {contact: this.contact});
+          this.fire('remove-card', {contact: this.contact});          
           this.toggleClass('removed');
         }.bind(this), 300);
         

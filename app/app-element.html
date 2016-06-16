@@ -8,7 +8,7 @@
 <link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
 
 <link rel="import" href="contact-card.html">
-<link rel="import" href="contact-favorite.html">
+<link rel="import" href="contact-small-card.html">
 
 
 <dom-module id="app-element">
@@ -16,7 +16,7 @@
     	<style>
 
       paper-toolbar{
-        background-color:#03A4FF;
+        background-color:#175A69;
         border-radius: 0.5%;
 
       }
@@ -43,6 +43,23 @@
         float: center;
         transform: scale(1.5);
       }
+      .first-container{
+        background: #BDB37D;
+        float:left;
+        height: 100%;
+        margin: 1em; 
+        padding:1.25em;
+        width: 75%;
+
+      }
+      .second-container{
+        float:left;
+        margin: 0 1em ;
+        width: 15%;
+      }
+      contact-small-card{
+        display: block;
+      }
 
     	</style>
       <iron-ajax
@@ -60,7 +77,7 @@
       <section class='first-container'>
   		  <section class= 'contacts-view' active>          
           <template id='contactsView' is='dom-repeat' items='{{contacts.results}}'> 
-            <contact-card contact="{{item}}">loading contact-card</contact-card>
+            <contact-card contact="{{item}}">loading contact-card...</contact-card>
           </template> 
         </section>
         <section class='pagination-buttons'>          
@@ -78,6 +95,9 @@
       </section>
 
       <aside class='second-container'>
+        <template id='asideView' is='dom-repeat' items='{{contacts.results}}' filter='_selectFavorite'> 
+            <contact-small-card contact="{{item}}">loading contact-small-card...</contact-small-card>
+        </template> 
 
         
       </aside>
@@ -94,21 +114,35 @@
         },
         count:{
           type: Number,
-          value: 6
+          value: 12
         },
         page:{
           type: Number,
           value:0
+        },
+        favorite:{
+          type:Array
         }
+
       },
       listeners:{
         'remove-card' : '_removeCard'
       },
 
       _removeCard: function(ev, param){
-        var index = this.contacts.results.indexOf(param.contact);    
+        var index = this.contacts.results.indexOf(param.contact);
         this.contacts.results.splice(index,1);    
         this.$.contactsView.render();
+        this.$.asideView.render();
+      },
+      _selectFavorite: function(item) { 
+            
+        if (!item.favorite){
+          return false;
+        } else {
+          console.log("Favorite-true");
+          return item;
+        }
       },
       _selectNext: function(){
         this.page=this.page+1;
@@ -117,8 +151,7 @@
         this.page=this.page-1;
       },
       _pageNumber: function(index){
-        return index>0;
-               
+        return index>0;               
       }
 
     });
