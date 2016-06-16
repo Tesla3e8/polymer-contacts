@@ -9,12 +9,13 @@
 <dom-module id="contact-card">
   	<template>
     	<style>
-      .card{
-        margin:1.2em;
-        transition: all 1s ease;
+
+      :host.removed .card{
+        transform: scale(0.5) !important;
+        transition: transform 1s ;
       }
       :host[favorite] .card{
-        background: #5ad3f4;
+        background: #FFAD41;
         transform: scale(1.1);
         transition: all 1s ease;
       }
@@ -22,28 +23,38 @@
         display: inline;
       } 
       :host([favorite]) .icon-not-check{
-        color:red;
+        color:#e2264d;
         float: left;
-      }     
-      .card-content{
-        background-color: #93AFB3;
+      }  
+      :host([favorite]) .card-content{
+        background-color: #FFFFFF;
       }
-      .card-actions{
-        background-color: #F3F4F3;        
-        padding: 0;
-      }     
+      .card{
+        margin:1.2em;
+        transition: all 1s ease;
+
+      }
+      .card-content{
+        background-color: #FFAD41;
+      }
       .icon-star{
         display:none;
         position: absolute;
         fill:yellow;
       }
       .icon-check{
-        color: green;
+        color: #AAB8C2;
         float: left;
       }
+      .icon-check:hover{
+        color:#03A4FF;
+      }
       .icon-clear {
-        color: red;
+        color: #AAB8C2;
         float: right;
+      }
+      .icon-clear:hover{
+        color:#E2264D;
       }
 
     	</style>     
@@ -83,10 +94,11 @@
 
         this.toggleClass('removed');
         setTimeout(function(){
-          console.log("Remove");
           this.fire('remove-card', {contact: this.contact});
           this.toggleClass('removed');
-        }.bind(this), 500);
+        }.bind(this), 300);
+        
+       
       }
     })
   </script>

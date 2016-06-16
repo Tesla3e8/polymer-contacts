@@ -1,40 +1,88 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
-<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
-<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+
 <link rel="import" href="contact-card.html">
+<link rel="import" href="contact-favorite.html">
 
 
 <dom-module id="app-element">
   	<template>
     	<style>
+
       paper-toolbar{
-        background-color:#00B5EC;
+        background-color:#03A4FF;
+        border-radius: 0.5%;
+
+      }
+      .main-title{
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-size: 2em;
+        float:left;
+      }
+      .pagination-buttons{
+        width:12.5em;
+        margin-left:40%;
+      }
+      .page-number{
+        display: inline;
+      }
+      .icon-next,.icon-previous{
+        color: #000000;
+        float: center;
+        height: 3.125em;
+        width: 3.125em;
+      }
+      .icon-next:hover,.icon-previous:hover{
+        color: #AAB8C2;
+        float: center;
+        transform: scale(1.5);
       }
 
     	</style>
       <iron-ajax
       auto
-      url='https://randomuser.me/api/?results=25'
+      url='http://api.randomuser.me/?page={{page}}&results={{count}}&seed=foobar'
       last-response='{{contacts}}'
       handle-as='json'>
-    </iron-ajax>
-
+    </iron-ajax>      
       <paper-header-panel mode='standard'>
         <paper-toolbar>
-          <span class='title'>My contacts</span>
+          <span class='main-title'>My contacts</span>
         </paper-toolbar>
-      </paper-header-panel>      
+      </paper-header-panel>     
 
-      <section class='container'>
-  		  <section class= 'contacts-view'>
+      <section class='first-container'>
+  		  <section class= 'contacts-view' active>          
           <template id='contactsView' is='dom-repeat' items='{{contacts.results}}'> 
             <contact-card contact="{{item}}">loading contact-card</contact-card>
+          </template> 
+        </section>
+        <section class='pagination-buttons'>          
+          <template is='dom-if' if='{{!_pageNumber(page)}}'> 
+            <p class= 'page-number'> Page {{page}}</p>           
+            <paper-icon-button class='icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
           </template>
-            
+
+          <template is='dom-if' if='{{_pageNumber(page)}}'>
+            <paper-icon-button class='icon-previous' icon='arrow-back' on-tap='_selectPrevious'></paper-icon-button>
+            <p class= 'page-number'> Page {{page}}</p> 
+            <paper-icon-button class='icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
+          </template>
         </section>
       </section>
+
+      <aside class='second-container'>
+
+        
+      </aside>
+      
+    
     </template>
 
  <script>
@@ -43,6 +91,14 @@
       properties:{
         contacts:{
           type: Object
+        },
+        count:{
+          type: Number,
+          value: 6
+        },
+        page:{
+          type: Number,
+          value:0
         }
       },
       listeners:{
@@ -53,10 +109,17 @@
         var index = this.contacts.results.indexOf(param.contact);    
         this.contacts.results.splice(index,1);    
         this.$.contactsView.render();
+      },
+      _selectNext: function(){
+        this.page=this.page+1;
+      },
+      _selectPrevious: function(){
+        this.page=this.page-1;
+      },
+      _pageNumber: function(index){
+        return index>0;
+               
       }
-
-
-      
 
     });
   </script>
