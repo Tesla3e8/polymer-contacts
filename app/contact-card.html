@@ -10,57 +10,74 @@
     <template>
       <style>
       :host.removed .card{
-        transform: scale(0.5) !important;
+        transform: scale(0.5);
         transition: transform 1s ;
       }
+
       :host[favorite] .card{
         transform: scale(1.1);
         transition: all 1s ease;
       }
-      :host[favorite] .card-content{
-        background-color: #74AACC;
-      }
+
       :host([favorite]) .icon-star{
         display: inline;
-      } 
+      }
+
       :host([favorite]) .icon-not-check{
-        color: #e2264d;
+        color: #E2264D;
         float: left;
       }
+
       .card{
-        margin:1.2em;
-        transition: all 1s ease;
+        margin: 1em;
+        width: 11.25em;
       }
+
       .card-content{
-        background-color: #91D4FF;
+        background-color: #1FCCE2;
       }
+
+      .contact-picture{
+        margin: 0.625em;
+      }
+
+      .contact-name{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
       .icon-star{
         display: none;
         position: absolute;
         fill: yellow;
       }
+
       .icon-check{
         color: #AAB8C2;
         float: left;
       }
+
       .icon-check:hover{
-        color: #74AACC;
+        color: #392F25;
       }
+
       .icon-clear {
         color: #AAB8C2;
         float: right;
       }
+
       .icon-clear:hover{
         color: #E2264D;
       }
+
       </style>
       <paper-card class='card'>
         <div class='card-content'>
           <iron-icon class='icon-star' icon='star'></iron-icon>
           <img class='contact-picture' src='{{contact.picture.large}}'>
           <p class='contact-name'>{{contact.name.first}} {{contact.name.last}}</p>
-        </div>    
-
+        </div>
         <div class='card-actions'>
           <template is='dom-if' if='{{!contact.favorite}}'>
             <paper-icon-button class='icon-check' icon='social:mood' on-tap='selectFavorite'></paper-icon-button>
@@ -82,9 +99,9 @@
           type: Object
         }
       },
-      _removeContact: function(){
+      _removeContact: function() {
         this.toggleClass('removed');
-        setTimeout(function(){
+        setTimeout(function() {
           this.fire('remove-card', {contact: this.contact});
           this.toggleClass('removed');
         }.bind(this), 300);
