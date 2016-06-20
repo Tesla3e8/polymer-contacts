@@ -1,0 +1,46 @@
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id='contact-small-card'>
+    <template>
+      <style>
+
+      .card{
+        margin: 1em;
+        width: 11.25em;
+      }
+
+      .card-content{
+        background-color: #1FCCE2;
+      }
+
+      .contact-picture{
+        margin: 0.1em;
+      }
+
+      .contact-name{
+        float: right;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      </style>
+      <paper-card class='card'>
+        <div class='card-content'>
+          <img class='contact-picture' src='{{contact.picture.medium}}'>
+          <p class='contact-name'>{{contact.name.first}}</p>
+        </div>
+      </paper-card>
+    </template>
+ <script>
+    Polymer({
+      is: 'contact-small-card',
+      properties: {
+        contact: {
+          type: Object
+        }
+      }
+    })
+  </script>
+</dom-module>

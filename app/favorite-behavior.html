@@ -1,0 +1,21 @@
+<script>
+    Polymer.FavoriteBehavior = {
+
+      properties: {
+        contact: {
+          type: Object
+        }
+      },
+      observers: [
+        '_favoriteChange(contact.favorite)'
+      ],
+      selectFavorite: function() {
+        
+        this.set('contact.favorite', !this.contact.favorite);
+        this.fire('select-favorite', this.contact);
+      },
+      _favoriteChange: function(fav) {
+        this.toggleAttribute('favorite', fav);
+      }
+    };
+</script>

@@ -43,8 +43,8 @@
 
       .contact-name{
         overflow: hidden;
-        white-space: nowrap;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .icon-star{
@@ -104,7 +104,7 @@
         setTimeout(function() {
           this.fire('remove-card', {contact: this.contact});
           this.toggleClass('removed');
-        }.bind(this), 300);
+        }.bind(this), 100);
       }
     })
   </script>
