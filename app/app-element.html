@@ -56,8 +56,6 @@
       .searchInput{
         margin-left: 1em;
       }
-
-
   	</style>
       <iron-ajax
         auto
@@ -71,18 +69,18 @@
         </paper-toolbar>
       </paper-header-panel>
       <paper-input class='searchInput' label='Search' type="string" value='{{search}}'></paper-input>
-      <section class='first-container' active>        
+      <section class='first-container' active>
         <section class='contacts-view'>
           <template id='contactsView' is='dom-repeat' items='{{contacts.results}}' filter='_searchContact'> 
-            <contact-card contact="{{item}}">loading contact-card...</contact-card>
+            <contact-card contact='{{item}}'>loading contact-card...</contact-card>
           </template> 
         </section>
         <section class='pagination-buttons'>
-          <template is='dom-if' if='{{!_pageNumber(page)}}'> 
-            <p class= 'page-number'> Page {{page}}</p>
+          <template is='dom-if' if='{{!_pageNumber(page)}}'>
+            <p class='page-number'> Page {{page}}</p>
             <paper-icon-button class='icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
           </template>
-          <template is='dom-if' if ='{{_pageNumber(page)}}'>
+          <template is='dom-if' if='{{_pageNumber(page)}}'>
             <paper-icon-button class='icon-previous' icon='arrow-back' on-tap='_selectPrevious'></paper-icon-button>
             <p class='page-number'> Page {{page}}</p>
             <paper-icon-button class='icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
@@ -128,7 +126,7 @@
         this.$.asideView.render();
       },
       _selectFavorite: function(param) {
-        if( param.favorite === true ) {
+        if(param.favorite === true ) {
           return param;
         }
       },
