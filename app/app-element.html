@@ -1,39 +1,34 @@
-<link rel ="import" href="../../bower_components/polymer/polymer.html">
-<link rel ="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel ="import" href="../bower_components/iron-icon/iron-icon.html">
-<link rel ="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel ="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel ="import" href="../bower_components/paper-input/paper-input.html">
-<link rel ="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
-<link rel ="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel ="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
-
-
-<link rel ="import" href="contact-card.html">
-<link rel ="import" href="contact-small-card.html">
-
+<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="contact-small-card.html">
+<link rel="import" href="contact-card.html">
 
 
 <dom-module id='app-element'>
-  	<template>
-    	<style>
-
+  <template>
+    <style>
       paper-toolbar{
-        background-color:#91D4FF;
-        border-radius   : 0.5%;
-
+        background-color: #91D4FF;
+        border-radius: 0.5%;
       }
       contact-small-card{
         display: block;
       }
       .main-title{
         font-family: 'Roboto', 'Noto', sans-serif;
-        font-size  : 2em;
-        float      :left;
+        font-size: 2em;
+        float: left;
       }
       .pagination-buttons{
-        width      :12.5em;
-        margin-left:40%;
+        width: 12.5em;
+        margin-left: 40%;
       }
       .page-number{
         display: inline;
@@ -50,131 +45,114 @@
         transform: scale(1.5);
       }
       .first-container{
-        float  :left;
-        height : 100%;
-        margin : 1em; 
+        float: left;
+        height: 100%;
+        margin: 1em;
         padding:1.25em;
-        width  : 75%;
-
+        width: 75%;
       }
       .second-container{
-        float :left;
-        margin: 0 1em ;
-        width : 15%;
+        float:left;
+        margin: 0 1em;
+        width: 15%;
       }
-
-
-    	</style>
+  	</style>
       <iron-ajax
-      auto
-      url='http://api.randomuser.me/?page={{page}}&results ={{count}}&seed =foobar'
-      last-response='{{contacts}}'
-      handle-as='json'>
-    </iron-ajax>      
-      <paper-header-panel mode ='standard'>
+        auto
+        url='http://api.randomuser.me/?page={{page}}&results={{count}}&seed=foobar'
+        last-response='{{contacts}}'
+        handle-as='json'>
+      </iron-ajax>      
+      <paper-header-panel mode='standard'>
         <paper-toolbar>
           <span class='main-title'>My contacts</span>
         </paper-toolbar>
-      </paper-header-panel>   
-
-
-
-      
-
-      <section class ='first-container'>
-          <paper-input label='Search'  type= "string" value={{search}} ></paper-input>  
-          
-  
-        <section class = 'contacts-view' active>          
-          <template id ='contactsView' is ='dom-repeat' items ='{{contacts.results}}' filter = '_searchContact'> 
-            <contact-card contact ="{{item}}">loading contact-card...</contact-card>
+      </paper-header-panel>
+      <section class='first-container' active>
+        <paper-input label='Search' type="string" value='{{search}}'></paper-input>
+        <section class='contacts-view'>          
+          <template id='contactsView' is='dom-repeat' items='{{contacts.results}}' filter='_searchContact'> 
+            <contact-card contact="{{item}}">loading contact-card...</contact-card>
           </template> 
         </section>
-        <section class ='pagination-buttons'>          
-          <template is ='dom-if' if ='{{!_pageNumber(page)}}'> 
-            <p class = 'page-number' > Page {{page}}</p>           
-            <paper-icon-button class ='icon-next' icon ='arrow-forward' on-tap ='_selectNext'></paper-icon-button>
+        <section class='pagination-buttons'>          
+          <template is='dom-if' if='{{!_pageNumber(page)}}'> 
+            <p class= 'page-number'> Page {{page}}</p>           
+            <paper-icon-button class='icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
           </template>
-
-          <template is ='dom-if' if ='{{_pageNumber(page)}}'>
-            <paper-icon-button class ='icon-previous' icon='arrow-back' on-tap ='_selectPrevious'></paper-icon-button>
-            <p class = 'page-number' > Page {{page}}</p> 
-            <paper-icon-button class = 'icon-next' icon ='arrow-forward' on-tap ='_selectNext'></paper-icon-button>
+          <template is='dom-if' if ='{{_pageNumber(page)}}'>
+            <paper-icon-button class='icon-previous' icon='arrow-back' on-tap='_selectPrevious'></paper-icon-button>
+            <p class='page-number'> Page {{page}}</p> 
+            <paper-icon-button class=icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
           </template>
         </section>
       </section>
-
       <aside class='second-container'>
-        <template id ='asideView' is ='dom-repeat' items='{{contacts.results}}' filter ='_selectFavorite'>        
-            <contact-small-card contact ="{{item}}">loading contact-small-card...</contact-small-card>
-        </template>         
+        <template id='asideView' is='dom-repeat' items='{{contacts.results}}' filter='_selectFavorite'>
+            <contact-small-card contact="{{item}}">loading contact-small-card...</contact-small-card>
+        </template>
       </aside>
-      
-    
     </template>
-
  <script>
     Polymer({
       is: 'app-element',
-      properties :{
-        contacts :{
-          type : Object
+      properties: {
+        contacts: {
+          type: Object
         },
-        count:{
-          type  : Number,
-          value : 12
+        count: {
+          type: Number,
+          value: 12
         },
-        page:{
-          type : Number,
-          value:1
+        page: {
+          type: Number,
+          value: 1
         },
-        search : {
-          type : Array
+        search: {
+          type: String
         }
-
       },
-      observers : [
+      observers: [
         '_refreshContactView(search)'
       ],
-      
-      listeners : {
-        'select-favorite': '_refreshView',
-        'remove-card'    : '_removeCard'
+      listeners: {
+        'select-favorite': '_refreshFavoriteView',
+        'remove-card': '_removeCard'
       },
-
-      _removeCard: function(ev, param) {
+      _removeCard: function(ev, param){
         var index = this.contacts.results.indexOf(param.contact);
-        this.contacts.results.splice(index,1);    
+        this.contacts.results.splice(index,1);
         this.$.contactsView.render();
         this.$.asideView.render();
-
       },
-      _selectFavorite: function(param) {
+      _selectFavorite: function(param){
         if( param.favorite === true ){
-          return param;           
+          return param;
         }
       },
-      _selectNext: function() {
+      _selectNext: function(){
         this.page = this.page + 1;
       },
       _selectPrevious: function() {
         this.page = this.page - 1;
       },
-      _pageNumber: function(index) {
-        return index > 1;               
+      _pageNumber: function(index){
+        return index > 1;
       },
-      _refreshFavoriteView: function() {
+      _refreshFavoriteView: function(){
         this.$.asideView.render();
+        this.$.contactsView.render();
       },
-      _refreshContactView: function() {
+      _refreshContactView: function(item){
         this.$.contactsView.render();
       },
       _searchContact: function(item){
-        console.log('filter');
-        
+        if (item.name.first.indexOf(this.search) === -1 ){ 
+          return false;
+        } else {
+          return item;
+        }
       }
-
     });
   </script>
-
 </dom-module>
