@@ -7,14 +7,14 @@
         }
       },
       observers: [
-        '_favoriteChange(contact.favorite)'
+        '_changeFavorite(contact.favorite)'
       ],
       selectFavorite: function() {
         
         this.set('contact.favorite', !this.contact.favorite);
         this.fire('select-favorite', this.contact);
       },
-      _favoriteChange: function(fav) {
+      _changeFavorite: function(fav) {
         this.toggleAttribute('favorite', fav);
       }
     };

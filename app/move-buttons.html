@@ -1,0 +1,57 @@
+
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id='move-buttons'>
+    <template>
+      <style>
+        .page-number {
+          display: inline;
+        }
+
+        .icon-next,.icon-previous {
+          color : #000000;
+          float : center;
+          height: 3.125em;
+          width : 3.125em;
+        }
+
+      </style>
+      <template is='dom-if' if='{{!_pageNumber(page)}}'>
+        <p class='page-number'> Page {{page}}</p>
+        <paper-icon-button class='icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
+      </template>
+
+      <template is='dom-if' if='{{_pageNumber(page)}}'>
+        <paper-icon-button class='icon-previous' icon='arrow-back' on-tap='_selectPrevious'></paper-icon-button>
+        <p class='page-number'> Page {{page}}</p>
+        <paper-icon-button class='icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
+      </template>
+      
+    </template>
+ <script>
+    Polymer({
+      is: 'move-buttons',
+      properties: {
+        page: {
+          type: Number
+        }
+      },
+      observers:[
+        '_changePage(page)'
+      ],
+      _selectNext: function() {
+        this.page = this.page + 1;
+      },
+      _selectPrevious: function() {
+        this.page = this.page - 1;
+      },
+      _pageNumber: function(index) {
+        return index > 1;
+      },
+      _changePage: function(page) {
+        this.fire('change-page', this.page);
+      }
+    })
+  </script>
+</dom-module>

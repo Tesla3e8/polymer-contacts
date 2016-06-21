@@ -9,6 +9,8 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="contact-small-card.html">
 <link rel="import" href="contact-card.html">
+<link rel="import" href="move-buttons.html">
+
 
 <dom-module id='app-element'>
   <template>
@@ -32,17 +34,6 @@
         margin-left: 40%;
       }
 
-      .page-number {
-        display: inline;
-      }
-
-      .icon-next,.icon-previous {
-        color : #000000;
-        float : center;
-        height: 3.125em;
-        width : 3.125em;
-      }
-
       .first-container {
         float: left;
         height: 100%;
@@ -56,7 +47,7 @@
       .searchInput{
         margin-left: 1em;
       }
-  	</style>
+    </style>
       <iron-ajax
         auto
         url='http://api.randomuser.me/?page={{page}}&results={{count}}&seed=foobar'
@@ -75,17 +66,7 @@
             <contact-card contact='{{item}}'>loading contact-card...</contact-card>
           </template> 
         </section>
-        <section class='pagination-buttons'>
-          <template is='dom-if' if='{{!_pageNumber(page)}}'>
-            <p class='page-number'> Page {{page}}</p>
-            <paper-icon-button class='icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
-          </template>
-          <template is='dom-if' if='{{_pageNumber(page)}}'>
-            <paper-icon-button class='icon-previous' icon='arrow-back' on-tap='_selectPrevious'></paper-icon-button>
-            <p class='page-number'> Page {{page}}</p>
-            <paper-icon-button class='icon-next' icon='arrow-forward' on-tap='_selectNext'></paper-icon-button>
-          </template>
-        </section>
+        <move-buttons class='pagination-buttons' page= '{{page}}'></move-buttons>
       </section>
       <aside class='second-container'>
         <template id='asideView' is='dom-repeat' items='{{contacts.results}}' filter='_selectFavorite'>
@@ -102,7 +83,7 @@
         },
         count: {
           type: Number,
-          value: 12
+          value: 5
         },
         page: {
           type: Number,
@@ -116,28 +97,23 @@
         '_refreshContactView(search)'
       ],
       listeners: {
+        'change-page': '_changePage',
         'select-favorite': '_refreshFavoriteView',
         'remove-card': '_removeCard'
       },
       _removeCard: function(ev, param) {
         var index = this.contacts.results.indexOf(param.contact);
         this.contacts.results.splice(index,1);
-        this.$.contactsView.render();
-        this.$.asideView.render();
+        this._refreshFavoriteView();
       },
       _selectFavorite: function(param) {
         if(param.favorite === true ) {
           return param;
         }
       },
-      _selectNext: function() {
-        this.page = this.page + 1;
-      },
-      _selectPrevious: function() {
-        this.page = this.page - 1;
-      },
-      _pageNumber: function(index) {
-        return index > 1;
+      _changePage: function(ev,param) {
+        this.page = param;
+        console.log('page'+ this.page + 'param' +param);
       },
       _refreshFavoriteView: function() {
         this.$.asideView.render();
